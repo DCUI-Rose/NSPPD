@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NSPPD UK Roaming Medics — Training Module</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --lime:#9FD421;
+    --lime-dark:#6FA30F;
+    --red:#C8102E;
+    --red-dark:#8E0B20;
+    --navy:#0B1F3A;
+    --black:#141414;
+    --white:#FFFFFF;
+    --grey-50:#F6F7F5;
+    --grey-100:#ECEEEA;
+    --grey-400:#9AA0A6;
+    --grey-600:#5B6167;
+    --radius:14px;
+    --shadow:0 10px 30px rgba(11,31,58,0.12);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:'Inter',sans-serif;
+    background:
+      radial-gradient(1200px 400px at 100% 0%, rgba(159,212,33,0.08), transparent 60%),
+      var(--grey-50);
+    color:var(--black);
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
+  .display{font-family:'Archivo Black',sans-serif; text-transform:uppercase; letter-spacing:0.01em;}
+  a{color:inherit;}
+  button{font-family:inherit; cursor:pointer;}
+  button:focus-visible, input:focus-visible, select:focus-visible, [tabindex]:focus-visible{
+    outline:3px solid var(--navy); outline-offset:2px;
+  }
+  ::selection{background:var(--lime); color:var(--black);}
+
+  /* ---------- shell ---------- */
+  #app{max-width:760px; margin:0 auto; padding:0 18px 60px; position:relative;}
+
+  .topbar{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 0 14px;
+  }
+  .brand{display:flex; align-items:center; gap:10px;}
+  .brand-mark{
+    width:34px; height:34px; border-radius:8px;
+    background:linear-gradient(135deg, var(--red) 0%, var(--red) 55%, var(--black) 55%, var(--black) 100%);
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .brand-mark svg{width:20px; height:20px;}
+  .brand-text{line-height:1.1;}
+  .brand-text .eyebrow{font-size:10px; letter-spacing:0.12em; color:var(--grey-600); font-weight:700; text-transform:uppercase;}
+  .brand-text .title{font-size:14px; font-weight:800;}
+  .admin-link{
+    font-size:12px; font-weight:600; color:var(--grey-600); background:none; border:1px solid var(--grey-100);
+    padding:6px 12px; border-radius:20px; transition:all .15s ease;
+  }
+  .admin-link:hover{border-color:var(--navy); color:var(--navy);}
+
+  .preview-banner{
+    display:flex; align-items:center; gap:8px; background:#FFF6E5; border:1px solid #F5DDA0; color:#8A6100;
+    font-size:12px; font-weight:700; padding:9px 14px; border-radius:10px; margin-bottom:14px; line-height:1.4;
+  }
+  .preview-banner .pill{
+    background:#8A6100; color:var(--white); font-size:9.5px; font-weight:800; letter-spacing:0.06em;
+    padding:2px 7px; border-radius:5px; flex-shrink:0; text-transform:uppercase;
+  }
+
+  .progress-wrap{margin:6px 0 22px;}
+  .progress-track{height:6px; background:var(--grey-100); border-radius:6px; overflow:hidden;}
+  .progress-fill{height:100%; background:linear-gradient(90deg, var(--lime-dark), var(--lime)); border-radius:6px; transition:width .35s ease;}
+  .progress-label{font-size:11px; color:var(--grey-600); margin-top:6px; font-weight:600; letter-spacing:0.02em;}
+
+  .card{
+    background:var(--white); border-radius:var(--radius); box-shadow:var(--shadow);
+    padding:32px 28px; position:relative; overflow:hidden;
+  }
+  .card::before{
+    content:''; position:absolute; top:0; right:0; width:120px; height:120px;
+    background:linear-gradient(135deg, transparent 50%, rgba(200,16,46,0.06) 50%);
+  }
+
+  /* ---------- hero / register ---------- */
+  .hero{
+    background:linear-gradient(120deg, var(--black) 0%, var(--navy) 100%);
+    border-radius:var(--radius); padding:38px 28px 34px; color:var(--white);
+    box-shadow:var(--shadow); position:relative; overflow:hidden; margin-bottom:18px;
+  }
+  .hero::after{
+    content:''; position:absolute; right:-40px; top:-40px; width:220px; height:220px; border-radius:50%;
+    background:radial-gradient(circle, rgba(159,212,33,0.25), transparent 70%);
+  }
+  .hero .eyebrow{color:var(--lime); font-size:12px; font-weight:800; letter-spacing:0.14em; margin-bottom:10px;}
+  .hero h1{font-size:32px; line-height:1.05; margin:0 0 6px; position:relative;}
+  .hero h1 .accent{color:var(--red);}
+  .hero p.tag{color:rgba(255,255,255,0.72); font-size:14px; font-weight:600; margin:14px 0 0; letter-spacing:0.03em;}
+
+  .field{margin-bottom:16px;}
+  .field label{display:block; font-size:12px; font-weight:700; color:var(--grey-600); margin-bottom:6px; letter-spacing:0.02em;}
+  .field input, .field select{
+    width:100%; padding:12px 14px; border-radius:10px; border:1.5px solid var(--grey-100);
+    font-size:15px; font-family:inherit; background:var(--grey-50); transition:border-color .15s ease;
+  }
+  .field input:focus, .field select:focus{border-color:var(--lime-dark); background:var(--white); outline:none;}
+  .field .req{color:var(--red); margin-left:2px;}
+  .field-note{font-size:11px; color:var(--grey-400); margin-top:5px;}
+
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    padding:13px 24px; border-radius:10px; border:none; font-weight:800; font-size:14px;
+    letter-spacing:0.02em; text-transform:uppercase; transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .btn:active{transform:translateY(1px);}
+  .btn-primary{background:var(--red); color:var(--white); box-shadow:0 6px 16px rgba(200,16,46,0.28);}
+  .btn-primary:hover{background:var(--red-dark);}
+  .btn-primary:disabled{background:var(--grey-400); box-shadow:none; cursor:not-allowed;}
+  .btn-ghost{background:var(--grey-100); color:var(--black);}
+  .btn-ghost:hover{background:var(--grey-100); filter:brightness(0.96);}
+  .btn-lime{background:var(--lime); color:var(--black); box-shadow:0 6px 16px rgba(159,212,33,0.3);}
+  .btn-lime:hover{background:var(--lime-dark); color:var(--white);}
+  .btn-row{display:flex; justify-content:space-between; align-items:center; margin-top:26px; gap:10px;}
+  .btn-row .spacer{flex:1;}
+
+  /* ---------- section content ---------- */
+  .sec-eyebrow{display:flex; align-items:center; gap:10px; margin-bottom:14px;}
+  .sec-num{
+    width:30px; height:30px; border-radius:50%; background:var(--black); color:var(--white);
+    display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; flex-shrink:0;
+  }
+  .sec-num.alert{background:var(--red);}
+  .sec-num.calm{background:var(--lime-dark);}
+  .sec-num.protocol{background:var(--navy);}
+  .sec-tag{font-size:11px; font-weight:800; letter-spacing:0.12em; color:var(--grey-600); text-transform:uppercase;}
+  .sec-title{font-size:24px; margin:0 0 16px; line-height:1.15;}
+  .sec-body p{font-size:15px; line-height:1.6; color:#33383D; margin:0 0 12px;}
+  .sec-list{list-style:none; padding:0; margin:0 0 6px;}
+  .sec-list li{
+    display:flex; gap:10px; padding:10px 0; border-bottom:1px solid var(--grey-100); font-size:14.5px; line-height:1.5;
+  }
+  .sec-list li:last-child{border-bottom:none;}
+  .sec-list li .dot{
+    flex-shrink:0; width:8px; height:8px; border-radius:50%; background:var(--lime-dark); margin-top:7px;
+  }
+  .sec-list.alert .dot{background:var(--red);}
+  .sec-list strong{font-weight:700;}
+
+  .callout{
+    border-radius:10px; padding:14px 16px; font-size:13.5px; line-height:1.55; margin-top:14px;
+    display:flex; gap:10px; align-items:flex-start;
+  }
+  .callout.info{background:#EEF3FB; color:var(--navy); border:1px solid #D5E1F5;}
+  .callout.warn{background:#FDECEE; color:var(--red-dark); border:1px solid #F7C9CF;}
+  .callout svg{flex-shrink:0; margin-top:2px;}
+
+  .subgrid{display:grid; grid-template-columns:1fr; gap:12px; margin-top:14px;}
+  .subcard{background:var(--grey-50); border:1px solid var(--grey-100); border-radius:10px; padding:14px 16px;}
+  .subcard h4{margin:0 0 6px; font-size:13.5px; font-weight:800; color:var(--red-dark); text-transform:uppercase; letter-spacing:0.03em;}
+  .subcard p{margin:0; font-size:13.5px; color:#33383D; line-height:1.55;}
+
+  .flow{display:flex; flex-direction:column; gap:0;}
+  .flow-step{display:flex; gap:12px; padding:12px 0;}
+  .flow-step .fnum{
+    width:26px; height:26px; border-radius:50%; background:var(--navy); color:var(--white); font-size:11px; font-weight:800;
+    display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px;
+  }
+  .flow-step .fline{width:2px; background:var(--grey-100); margin:4px auto 0; flex:1;}
+  .flow-step-body{flex:1;}
+  .flow-step-body h5{margin:0 0 3px; font-size:13.5px; font-weight:800;}
+  .flow-step-body p{margin:0; font-size:13px; color:var(--grey-600); line-height:1.5;}
+  .flow-connector{width:26px; display:flex; justify-content:center;}
+  .flow-connector .stem{width:2px; flex:1; background:var(--grey-100);}
+
+  /* ---------- quiz ---------- */
+  .quiz-progress{font-size:11px; font-weight:700; color:var(--grey-600); margin-bottom:8px; letter-spacing:0.04em;}
+  .quiz-q{font-size:19px; font-weight:700; margin:0 0 18px; line-height:1.35;}
+  .quiz-opts{display:flex; flex-direction:column; gap:10px;}
+  .opt{
+    text-align:left; padding:14px 16px; border-radius:10px; border:1.5px solid var(--grey-100); background:var(--grey-50);
+    font-size:14.5px; font-weight:600; transition:all .12s ease; display:flex; align-items:center; gap:10px;
+  }
+  .opt:hover{border-color:var(--lime-dark);}
+  .opt .letter{
+    width:24px; height:24px; border-radius:6px; background:var(--white); border:1.5px solid var(--grey-100);
+    display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; flex-shrink:0;
+  }
+  .opt.selected{border-color:var(--navy); background:#EEF3FB;}
+  .opt.correct{border-color:var(--lime-dark); background:#F1F9E3;}
+  .opt.incorrect{border-color:var(--red); background:#FDECEE;}
+  .opt:disabled{cursor:default;}
+  .explain{
+    margin-top:16px; padding:14px 16px; border-radius:10px; font-size:13.5px; line-height:1.55;
+    background:var(--grey-50); border:1px solid var(--grey-100);
+  }
+  .explain.right{border-color:#CBE7A0; background:#F1F9E3;}
+  .explain.wrong{border-color:#F7C9CF; background:#FDECEE;}
+  .explain .lbl{font-weight:800; font-size:12px; text-transform:uppercase; letter-spacing:0.04em; display:block; margin-bottom:4px;}
+  .explain.right .lbl{color:var(--lime-dark);}
+  .explain.wrong .lbl{color:var(--red-dark);}
+
+  /* ---------- completion ---------- */
+  .complete-wrap{text-align:center; padding:10px 4px;}
+  .check-circle{
+    width:72px; height:72px; border-radius:50%; background:var(--lime); margin:0 auto 18px;
+    display:flex; align-items:center; justify-content:center; box-shadow:0 8px 24px rgba(159,212,33,0.35);
+  }
+  .score-big{font-size:44px; font-weight:900; margin:6px 0 2px;}
+  .score-sub{font-size:13px; color:var(--grey-600); font-weight:600; margin-bottom:20px;}
+  .cert{
+    border:2px dashed var(--grey-100); border-radius:12px; padding:22px; margin:20px 0; text-align:left;
+    background:var(--grey-50);
+  }
+  .cert-row{display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid var(--grey-100); font-size:13.5px;}
+  .cert-row:last-child{border-bottom:none;}
+  .cert-row span:first-child{color:var(--grey-600); font-weight:600;}
+  .cert-row span:last-child{font-weight:700;}
+
+  /* ---------- admin ---------- */
+  .admin-gate{max-width:360px; margin:60px auto; text-align:center;}
+  .admin-header{display:flex; align-items:center; justify-content:space-between; margin-bottom:18px;}
+  .admin-stats{display:flex; gap:10px; margin-bottom:18px; flex-wrap:wrap;}
+  .stat-pill{background:var(--grey-50); border:1px solid var(--grey-100); border-radius:10px; padding:10px 16px; flex:1; min-width:110px;}
+  .stat-pill .num{font-size:22px; font-weight:900; display:block;}
+  .stat-pill .lbl{font-size:11px; color:var(--grey-600); font-weight:700; text-transform:uppercase; letter-spacing:0.03em;}
+  table.roster{width:100%; border-collapse:collapse; font-size:13px;}
+  table.roster th{
+    text-align:left; padding:9px 8px; background:var(--grey-50); font-weight:800; font-size:11px;
+    text-transform:uppercase; letter-spacing:0.03em; color:var(--grey-600); border-bottom:2px solid var(--grey-100);
+  }
+  table.roster td{padding:9px 8px; border-bottom:1px solid var(--grey-100); vertical-align:top;}
+  table.roster tr:last-child td{border-bottom:none;}
+  .roster-wrap{overflow-x:auto; -webkit-overflow-scrolling:touch;}
+  .empty-state{text-align:center; padding:40px 20px; color:var(--grey-600); font-size:14px;}
+  .admin-note{font-size:11.5px; color:var(--grey-400); margin-top:14px; line-height:1.5;}
+
+  @media (max-width:480px){
+    .card{padding:24px 18px;}
+    .hero{padding:28px 18px 26px;}
+    .hero h1{font-size:26px;}
+    .btn-row{flex-wrap:wrap;}
+  }
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+/* ============================================================
+   NSPPD UK Roaming Medics — Training Module
+   ============================================================ */
+
+const TRAINING_ID = "nsppd-roaming-medics-2026";
+
+/* ============================================================
+   BACKEND CONFIG
+   Paste your Google Apps Script "Web app URL" below (see
+   AppsScript-Code.gs for setup steps). Leave as-is only if you
+   are running this inside Claude, where it falls back to
+   window.storage automatically.
+   ============================================================ */
+const APPS_SCRIPT_URL = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
+const USE_APPS_SCRIPT = APPS_SCRIPT_URL.indexOf("PASTE_YOUR") !== 0 ? true : false;
+
+
+const SECTIONS = [
+  {
+    tag: "Your Role", numCls: "", title: "Primary Responsibility",
+    body: `<p>As a Roaming Medic, your job is to provide <strong>proactive medical support</strong> at entrances, queues, and the surrounding concourse areas.</p>
+    <p>The goal is simple: make sure vulnerable guests get the help they need <strong>before</strong> they even reach their seat inside the worship arena.</p>`,
+    callout: {type:"info", text:"You are often the first medical presence a guest sees. Being visible and approachable is part of the job."}
+  },
+  {
+    tag: "Your Role", numCls: "", title: "Responsibilities",
+    list: [
+      "Support Crowd Management at entrances",
+      "Assist elderly or physically challenged guests in queues and entrances",
+      "Support medically vulnerable attendees",
+      "Respond to emergencies in queues at the four main entrances",
+      "Operate wheelchairs safely",
+      "Transport patients when necessary",
+      "Refer serious cases to the First Aid Room"
+    ]
+  },
+  {
+    tag: "Your Role", numCls: "", title: "Expectations",
+    list: [
+      "Report for duty before gates open",
+      "Team Lead inspects the wheelchair and medical pack",
+      "Patrol your assigned entrance",
+      "Monitor queues throughout",
+      "Respond rapidly to any call for help",
+      "Resume standby position once entry closes",
+      "Team Lead returns all equipment after use"
+    ]
+  },
+  {
+    tag: "Structure", numCls: "calm", title: "Deployment",
+    body: `<p>Four teams of five are stationed across the four main entrances:</p>`,
+    list: ["Entrance 1 — Team 1", "Entrance 2 — Team 2", "Entrance 3 — Team 3", "Entrance 4 — Team 4"],
+    subgrid: [
+      {h:"Each team consists of", p:"1 Team Lead + 4 Medics"},
+      {h:"Resources per team", p:"1 medical pack and 1 wheelchair"}
+    ]
+  },
+  {
+    tag: "Structure", numCls: "calm", title: "Interfacing With Other Teams",
+    subgrid: [
+      {h:"Crowd Management", p:"Coordinate on entry flow, queue build-up, and capacity at each entrance."},
+      {h:"Guest Experience", p:"Joint point of contact for vulnerable or medically-flagged guests who come to their help desk."},
+      {h:"Ushering", p:"Hand off guests once inside to the ushers covering their seating zone."}
+    ]
+  },
+  {
+    tag: "Escalation", numCls: "protocol", title: "Incident Report Line",
+    flow: [
+      {h:"Incident spotted or reported", p:"Spotted by a medic, or reported to a medic by Crowd Management, Guest Experience, Ushers, or Stewards."},
+      {h:"Medic assesses", p:"Is the situation within your scope of practice, or beyond it?"},
+      {h:"Within scope → ensure safety, hand back over", p:"Guest is stabilised and handed back to Guest Experience, Usher, or Steward."},
+      {h:"Beyond scope → report to Team Lead", p:"Team Lead assesses and escalates to the First Aid Room and/or external emergency services if required."},
+      {h:"Incident form", p:"The medic who assessed the guest completes an incident form for every case — medical or not."}
+    ],
+    callout: {type:"info", text:"Our priority: guest safety, timely response, and clear communication. Stay calm. Assess. Escalate when needed. Document every incident."}
+  },
+  {
+    tag: "Clinical Awareness", numCls: "alert", title: "Medical Red Flags",
+    body: `<p>Escalate immediately if you observe any of the following:</p>`,
+    listAlert: ["Unresponsive patient", "Severe confusion", "No chest movement", "Severe breathing difficulty or gasping", "Seizure-like symptoms", "Chest pain or clutching chest", "Bluish lips", "Pale, clammy skin"],
+    callout: {type:"warn", text:"Spiritual indicators — shaking, collapse, agitation, unresponsiveness — are noted for context, not diagnosis. Medical assessment always comes first."}
+  },
+  {
+    tag: "Clinical Awareness", numCls: "alert", title: "Common Medical Emergencies",
+    subgrid: [
+      {h:"Dehydration & heat exhaustion", p:"Common in warm weather, crowded spaces, and long periods of standing. Risk factors: hot weather, overcrowding, physical exertion, poor ventilation. Can lead to collapse, confusion, or removal from the area for hospital referral."},
+      {h:"Allergic reactions", p:"Range from mild skin irritation to life-threatening airway obstruction (anaphylaxis). Triggers include food, insect bites, or medication. Watch for hives, swelling, or airway compromise — this needs a prompt response."},
+      {h:"Slips, falls & trips", p:"Frequent in high-traffic areas, especially wet or uneven ground. Injuries range from bruises to fractures and head trauma. Risk areas: staircases, queue lines, entrance ramps, wet floors."}
+    ]
+  },
+  {
+    tag: "Clinical Awareness", numCls: "alert", title: "Critical Medical Emergencies",
+    body: `<p>These are time-sensitive emergencies that need immediate assessment and escalation.</p>`,
+    subgrid: [
+      {h:"Heart attack", p:"Sudden chest pain, shortness of breath, or collapse."},
+      {h:"Stroke", p:"Facial deviation, sudden weakness, or slurred speech."},
+      {h:"Seizures", p:"Uncontrolled movements, loss of consciousness, or post-seizure confusion."}
+    ],
+    callout: {type:"warn", text:"These emergencies can occur with little to no warning. Rapid recognition and response are critical for survival and long-term outcomes."}
+  },
+  {
+    tag: "Protocol", numCls: "protocol", title: "Response Protocol",
+    flow: [
+      {h:"Observe", p:"Scan the environment. Identify potential dangers and the nature of the situation."},
+      {h:"Approach safely", p:"Ensure the scene is safe for you, others, and the individual. Approach with caution and care."},
+      {h:"Assess — ABCDE", p:"Airway. Breathing. Circulation. Disability. Exposure."},
+      {h:"Provide first aid", p:"Deliver appropriate care based on your assessment. Prioritise life-threatening conditions."},
+      {h:"Document", p:"Record key details: what happened, observations, actions taken, and time."},
+      {h:"Escalate", p:"Notify the appropriate personnel or emergency services immediately. Provide clear, concise information."}
+    ]
+  },
+  {
+    tag: "Wrap-up", numCls: "calm", title: "Final Reminder",
+    list: ["Be proactive", "Stay visible", "Watch the queues", "Protect vulnerable guests", "Work as a team", "Escalate early when in doubt", "Observe → Assess → Act → Escalate"],
+    callout: {type:"info", text:"Your role combines clinical awareness with spiritual attentiveness. Stay prayerful — you are a watchman."}
+  }
+];
+
+const QUIZ = [
+  {
+    q: "What is the primary responsibility of a Roaming Medic?",
+    opts: [
+      "Run the sound and lighting desk at each entrance",
+      "Provide proactive medical support at entrances and queues, helping vulnerable guests before they enter",
+      "Only respond once someone collapses inside the arena",
+      "Manage ticket sales at the gate"
+    ],
+    correct: 1,
+    explain: "Roaming Medics work proactively at entrances, queues, and surrounding areas — catching problems before guests even reach their seat."
+  },
+  {
+    q: "How is each Roaming Medic team structured?",
+    opts: [
+      "2 medics with no team lead",
+      "1 Team Lead and 4 Medics, with 1 medical pack and 1 wheelchair per team",
+      "10 medics per entrance",
+      "1 medic covering all four entrances alone"
+    ],
+    correct: 1,
+    explain: "Four teams of five are deployed — one at each of the four main entrances — each with a Team Lead, four medics, one medical pack, and one wheelchair."
+  },
+  {
+    q: "A medic assesses a guest and the situation is beyond their scope of practice. What's the correct next step?",
+    opts: [
+      "Attempt treatment anyway and hope for the best",
+      "Walk away and let a steward handle it",
+      "Report to the Team Lead, who escalates to the First Aid Room or external emergency services if needed",
+      "Wait for the guest to ask for help again"
+    ],
+    correct: 2,
+    explain: "The incident report line is clear: beyond-scope situations go to the Team Lead, who escalates further if required — and an incident form is completed either way."
+  },
+  {
+    q: "Which of these is a medical red flag requiring immediate escalation?",
+    opts: [
+      "Guest is mildly tired after standing in the queue",
+      "Guest is unresponsive, has bluish lips, or shows severe breathing difficulty",
+      "Guest asks where the toilets are",
+      "Guest is chatting with friends in the queue"
+    ],
+    correct: 1,
+    explain: "Unresponsiveness, bluish lips, severe breathing difficulty, chest pain, seizure-like symptoms, and pale clammy skin are all red flags — escalate immediately."
+  },
+  {
+    q: "What's the correct order of the Response Protocol?",
+    opts: [
+      "Escalate → Document → Observe → Assess → Approach → Provide First Aid",
+      "Observe → Approach Safely → Assess (ABCDE) → Provide First Aid → Document → Escalate",
+      "Provide First Aid → Observe → Escalate → Document",
+      "Assess → Escalate → Observe → Approach"
+    ],
+    correct: 1,
+    explain: "Observe, Approach Safely, Assess using ABCDE, Provide First Aid, Document, then Escalate — in that order."
+  },
+  {
+    q: "Once a guest is safely inside the venue, who do Roaming Medics hand them off to?",
+    opts: [
+      "The Ushers covering that guest's seating zone",
+      "No one — the guest is left to find their own way",
+      "The stadium's ticketing office",
+      "Crowd Management only"
+    ],
+    correct: 0,
+    explain: "Roaming Medics coordinate with Ushering to hand guests off to the ushers responsible for their seating zone once they're inside."
+  },
+  {
+    q: "What must happen before gates open, according to the Expectations?",
+    opts: [
+      "Nothing — medics can arrive any time during the event",
+      "Medics report for duty and the Team Lead inspects the wheelchair and medical pack",
+      "Only the wheelchair needs checking, not the medical pack",
+      "The medical pack is left in storage until an emergency happens"
+    ],
+    correct: 1,
+    explain: "Medics report for duty before gates open, and the Team Lead inspects both the wheelchair and the medical pack before patrol begins."
+  },
+  {
+    q: "True or false: spiritual indicators like shaking or collapse should replace a medical assessment.",
+    opts: [
+      "True — spiritual indicators are diagnostic on their own",
+      "False — spiritual indicators are for context only; medical assessment always comes first"
+    ],
+    correct: 1,
+    explain: "Spiritual indicators are noted for context, not diagnosis. A proper medical assessment always comes first."
+  },
+  {
+    q: "What resources does each Roaming Medic team carry?",
+    opts: [
+      "1 medical pack and 1 wheelchair",
+      "A defibrillator and an ambulance",
+      "Nothing — kit is only issued in an emergency",
+      "5 medical packs and no wheelchair"
+    ],
+    correct: 0,
+    explain: "Each of the four teams is equipped with one medical pack and one wheelchair to support their assigned entrance."
+  },
+  {
+    q: "In the Assess step of the Response Protocol, what does ABCDE stand for?",
+    opts: [
+      "Airway, Breathing, Circulation, Disability, Exposure",
+      "Alert, Behaviour, Call, Document, Escalate",
+      "Approach, Bandage, Carry, Deliver, Evaluate",
+      "Assess, Book, Confirm, Deploy, Exit"
+    ],
+    correct: 0,
+    explain: "ABCDE — Airway, Breathing, Circulation, Disability, Exposure — is the structured way to assess a guest before providing first aid."
+  }
+];
+
+/* ---------------- state ---------------- */
+let state = {
+  screen: "register",       // register | train | quiz | quizResult | complete | admin-gate | admin
+  sectionIndex: 0,
+  quizIndex: 0,
+  quizAnswers: [],          // {selected, correct}
+  quizRevealed: false,
+  reg: { name:"", email:"", team:"" },
+  adminPass: "",
+  adminError: "",
+  adminLoading: false,
+  adminRecords: null
+};
+
+const ADMIN_PASSCODE = "NSPPD2026";
+
+function svgCross(){
+  return `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M9 3h6v6h6v6h-6v6H9v-6H3V9h6V3z" fill="var(--white)"/>
+  </svg>`;
+}
+function svgCheck(){
+  return `<svg width="34" height="34" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="var(--black)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+}
+function svgInfo(){
+  return `<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 11v5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="8" r="1.2" fill="currentColor"/></svg>`;
+}
+function svgWarn(){
+  return `<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 3l10 18H2L12 3z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M12 10v5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="17.5" r="1" fill="currentColor"/></svg>`;
+}
+
+function render(){
+  const app = document.getElementById("app");
+  if(state.screen === "admin-gate" || state.screen === "admin"){
+    app.innerHTML = renderAdmin();
+  } else {
+    app.innerHTML = topbar() + body();
+  }
+  attachHandlers();
+  window.scrollTo({top:0, behavior:"instant"});
+}
+
+function topbar(){
+  const totalSteps = SECTIONS.length + 1; // + quiz
+  let current = 0;
+  if(state.screen === "train") current = state.sectionIndex + 1;
+  else if(state.screen === "quiz" ) current = SECTIONS.length + (state.quizIndex+1)/QUIZ.length;
+  else if(state.screen === "complete") current = totalSteps;
+  const pct = state.screen === "register" ? 0 : Math.min(100, Math.round((current/totalSteps)*100));
+
+  return `
+  <div class="topbar">
+    <div class="brand">
+      <div class="brand-mark">${svgCross()}</div>
+      <div class="brand-text">
+        <div class="eyebrow">NSPPD UK Prayer Conference 2026</div>
+        <div class="title">Roaming Medics Training</div>
+      </div>
+    </div>
+    <button class="admin-link" data-action="go-admin">Team Lead View</button>
+  </div>
+  <div class="preview-banner"><span class="pill">Preview</span><span>This module is a working draft — content and questions will be finalised before official rollout.</span></div>
+  ${state.screen !== "register" ? `
+  <div class="progress-wrap">
+    <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
+    <div class="progress-label">${pct}% complete</div>
+  </div>` : ""}
+  `;
+}
+
+function body(){
+  switch(state.screen){
+    case "register": return renderRegister();
+    case "train": return renderTrain();
+    case "quiz": return renderQuiz();
+    case "complete": return renderComplete();
+    default: return "";
+  }
+}
+
+/* ---------------- register ---------------- */
+function renderRegister(){
+  return `
+  <div class="hero">
+    <div class="eyebrow">Called to Serve. Trained to Care.</div>
+    <h1 class="display">Roaming Medics<br><span class="accent">Training Module</span></h1>
+    <p class="tag">Compassion in Action</p>
+  </div>
+  <div class="card">
+    <div class="sec-eyebrow">
+      <div class="sec-num">✓</div>
+      <div class="sec-tag">Before you begin</div>
+    </div>
+    <h2 class="sec-title">Register to start</h2>
+    <p style="font-size:14px; color:var(--grey-600); margin:0 0 20px; line-height:1.5;">
+      This confirms who has completed the training. Your name and completion date will be recorded for the medical team lead.
+    </p>
+    <div class="field">
+      <label for="reg-name">Full name<span class="req">*</span></label>
+      <input id="reg-name" type="text" placeholder="e.g. Chiza Okafor" value="${escapeAttr(state.reg.name)}" autocomplete="name" />
+    </div>
+    <div class="field">
+      <label for="reg-email">Email or phone (optional)</label>
+      <input id="reg-email" type="text" placeholder="For follow-up if needed" value="${escapeAttr(state.reg.email)}" autocomplete="email" />
+    </div>
+    <div class="field">
+      <label for="reg-team">Assigned entrance / team (optional)</label>
+      <select id="reg-team">
+        <option value="" ${state.reg.team===""?"selected":""}>Not yet assigned</option>
+        <option value="Entrance 1 — Team 1" ${state.reg.team==="Entrance 1 — Team 1"?"selected":""}>Entrance 1 — Team 1</option>
+        <option value="Entrance 2 — Team 2" ${state.reg.team==="Entrance 2 — Team 2"?"selected":""}>Entrance 2 — Team 2</option>
+        <option value="Entrance 3 — Team 3" ${state.reg.team==="Entrance 3 — Team 3"?"selected":""}>Entrance 3 — Team 3</option>
+        <option value="Entrance 4 — Team 4" ${state.reg.team==="Entrance 4 — Team 4"?"selected":""}>Entrance 4 — Team 4</option>
+      </select>
+      <div class="field-note">This record is visible to the medics team lead for tracking completion.</div>
+    </div>
+    <div class="btn-row">
+      <div class="spacer"></div>
+      <button class="btn btn-primary" data-action="start-training" id="start-btn">Start training</button>
+    </div>
+  </div>
+  `;
+}
+
+/* ---------------- training sections ---------------- */
+function renderTrain(){
+  const s = SECTIONS[state.sectionIndex];
+  let html = `<div class="card">
+    <div class="sec-eyebrow">
+      <div class="sec-num ${s.numCls}">${state.sectionIndex+1}</div>
+      <div class="sec-tag">${s.tag}</div>
+    </div>
+    <h2 class="sec-title">${s.title}</h2>`;
+
+  if(s.body) html += `<div class="sec-body">${s.body}</div>`;
+
+  if(s.list){
+    html += `<ul class="sec-list">` + s.list.map(li=>`<li><span class="dot"></span><span>${li}</span></li>`).join("") + `</ul>`;
+  }
+  if(s.listAlert){
+    html += `<ul class="sec-list alert">` + s.listAlert.map(li=>`<li><span class="dot"></span><span>${li}</span></li>`).join("") + `</ul>`;
+  }
+  if(s.subgrid){
+    html += `<div class="subgrid">` + s.subgrid.map(c=>`<div class="subcard"><h4>${c.h}</h4><p>${c.p}</p></div>`).join("") + `</div>`;
+  }
+  if(s.flow){
+    html += `<div class="flow">` + s.flow.map((f,i)=>`
+      <div class="flow-step">
+        <div style="display:flex; flex-direction:column; align-items:center;">
+          <div class="fnum">${i+1}</div>
+          ${i < s.flow.length-1 ? '<div class="fline"></div>' : ''}
+        </div>
+        <div class="flow-step-body">
+          <h5>${f.h}</h5>
+          <p>${f.p}</p>
+        </div>
+      </div>`).join("") + `</div>`;
+  }
+  if(s.callout){
+    const cls = s.callout.type === "warn" ? "warn" : "info";
+    const icon = s.callout.type === "warn" ? svgWarn() : svgInfo();
+    html += `<div class="callout ${cls}">${icon}<span>${s.callout.text}</span></div>`;
+  }
+
+  html += `
+    <div class="btn-row">
+      ${state.sectionIndex > 0 ? `<button class="btn btn-ghost" data-action="prev-section">Back</button>` : `<div></div>`}
+      <div class="spacer"></div>
+      <button class="btn btn-primary" data-action="next-section">${state.sectionIndex === SECTIONS.length-1 ? "Start quiz" : "Next"}</button>
+    </div>
+  </div>`;
+  return html;
+}
+
+/* ---------------- quiz ---------------- */
+function renderQuiz(){
+  const q = QUIZ[state.quizIndex];
+  const answered = state.quizAnswers[state.quizIndex];
+  const revealed = state.quizRevealed;
+
+  let optsHtml = q.opts.map((opt, i)=>{
+    let cls = "opt";
+    if(revealed){
+      if(i === q.correct) cls += " correct";
+      else if(answered && answered.selected === i) cls += " incorrect";
+    } else if(answered && answered.selected === i){
+      cls += " selected";
+    }
+    const letter = String.fromCharCode(65+i);
+    return `<button class="${cls}" data-action="answer" data-index="${i}" ${revealed ? "disabled" : ""}>
+      <span class="letter">${letter}</span><span>${opt}</span>
+    </button>`;
+  }).join("");
+
+  let explainHtml = "";
+  if(revealed){
+    const wasCorrect = answered.selected === q.correct;
+    explainHtml = `<div class="explain ${wasCorrect ? "right":"wrong"}">
+      <span class="lbl">${wasCorrect ? "Correct" : "Not quite"}</span>
+      ${q.explain}
+    </div>`;
+  }
+
+  return `<div class="card">
+    <div class="quiz-progress">Knowledge check — Question ${state.quizIndex+1} of ${QUIZ.length}</div>
+    <div class="quiz-q">${q.q}</div>
+    <div class="quiz-opts">${optsHtml}</div>
+    ${explainHtml}
+    <div class="btn-row">
+      <div class="spacer"></div>
+      <button class="btn btn-primary" data-action="quiz-next" ${revealed ? "" : "disabled"}>
+        ${state.quizIndex === QUIZ.length-1 ? "Finish training" : "Next question"}
+      </button>
+    </div>
+  </div>`;
+}
+
+/* ---------------- completion ---------------- */
+function renderComplete(){
+  const correctCount = state.quizAnswers.filter(a=>a.selected===a.correctIdx).length;
+  const total = QUIZ.length;
+  const pct = Math.round((correctCount/total)*100);
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('en-GB', {day:'2-digit', month:'long', year:'numeric'});
+
+  return `<div class="card">
+    <div class="complete-wrap">
+      <div class="check-circle">${svgCheck()}</div>
+      <div class="score-big">${pct}%</div>
+      <div class="score-sub">${correctCount} of ${total} correct</div>
+
+      <div class="cert" style="text-align:left;">
+        <div class="cert-row"><span>Name</span><span>${escapeHtml(state.reg.name)}</span></div>
+        ${state.reg.team ? `<div class="cert-row"><span>Team</span><span>${escapeHtml(state.reg.team)}</span></div>` : ""}
+        <div class="cert-row"><span>Training</span><span>Roaming Medics — NSPPD UK 2026</span></div>
+        <div class="cert-row"><span>Date completed</span><span>${dateStr}</span></div>
+        <div class="cert-row"><span>Score</span><span>${correctCount}/${total} (${pct}%)</span></div>
+      </div>
+
+      <p style="font-size:13.5px; color:var(--grey-600); line-height:1.6; margin:18px 0 6px;">
+        Thank you for stepping into this role. You are the hands and feet of compassion — together, we make a difference.
+      </p>
+      <div id="save-status" style="font-size:12.5px; color:var(--grey-400); margin-top:10px;">Saving your completion record…</div>
+    </div>
+  </div>`;
+}
+
+/* ---------------- admin ---------------- */
+function renderAdmin(){
+  if(state.screen === "admin-gate"){
+    return `
+    <div class="topbar"><div class="brand"><div class="brand-mark">${svgCross()}</div><div class="brand-text"><div class="eyebrow">NSPPD UK</div><div class="title">Team Lead View</div></div></div>
+    <button class="admin-link" data-action="back-to-training">Back to training</button></div>
+    <div class="preview-banner"><span class="pill">Preview</span><span>Roster reflects completions of the current draft — scores and content may change once the module is finalised.</span></div>
+    <div class="admin-gate card">
+      <h2 class="sec-title" style="font-size:20px;">Team Lead access</h2>
+      <p style="font-size:13.5px; color:var(--grey-600); margin:0 0 18px;">Enter the passcode to view completion records. This is a light access gate for internal use, not secure authentication — anyone with this link and the passcode can view names on the roster.</p>
+      <div class="field">
+        <label for="admin-pass">Passcode</label>
+        <input id="admin-pass" type="password" placeholder="Enter passcode" />
+      </div>
+      ${state.adminError ? `<div class="explain wrong" style="margin-bottom:14px;">${state.adminError}</div>` : ""}
+      <button class="btn btn-primary" data-action="admin-login" style="width:100%;">View roster</button>
+    </div>`;
+  }
+
+  const records = state.adminRecords || [];
+  const total = records.length;
+  const avgScore = total ? Math.round(records.reduce((a,r)=>a+(r.score/r.total*100),0)/total) : 0;
+
+  let rows = "";
+  if(state.adminLoading){
+    rows = `<div class="empty-state">Loading records…</div>`;
+  } else if(total === 0){
+    rows = `<div class="empty-state">No completions recorded yet.</div>`;
+  } else {
+    rows = `<div class="roster-wrap"><table class="roster">
+      <thead><tr><th>Name</th><th>Team</th><th>Contact</th><th>Score</th><th>Date completed</th></tr></thead>
+      <tbody>
+      ${records.map(r=>`<tr>
+        <td>${escapeHtml(r.name)}</td>
+        <td>${escapeHtml(r.team||"—")}</td>
+        <td>${escapeHtml(r.email||"—")}</td>
+        <td>${r.score}/${r.total} (${Math.round(r.score/r.total*100)}%)</td>
+        <td>${escapeHtml(r.dateDisplay)}</td>
+      </tr>`).join("")}
+      </tbody>
+    </table></div>`;
+  }
+
+  return `
+  <div class="topbar"><div class="brand"><div class="brand-mark">${svgCross()}</div><div class="brand-text"><div class="eyebrow">NSPPD UK</div><div class="title">Team Lead View</div></div></div>
+  <button class="admin-link" data-action="back-to-training">Back to training</button></div>
+  <div class="preview-banner"><span class="pill">Preview</span><span>Roster reflects completions of the current draft — scores and content may change once the module is finalised.</span></div>
+  <div class="card">
+    <div class="admin-header">
+      <h2 class="sec-title" style="margin:0; font-size:20px;">Completion roster</h2>
+      <button class="btn btn-ghost" data-action="admin-refresh" style="padding:9px 16px; font-size:12px;">Refresh</button>
+    </div>
+    <div class="admin-stats">
+      <div class="stat-pill"><span class="num">${total}</span><span class="lbl">Completed</span></div>
+      <div class="stat-pill"><span class="num">${total? avgScore+'%':'—'}</span><span class="lbl">Avg. score</span></div>
+    </div>
+    ${rows}
+    ${total > 0 ? `<div class="btn-row"><div class="spacer"></div><button class="btn btn-lime" data-action="export-csv" style="font-size:12px; padding:10px 18px;">Export CSV</button></div>` : ""}
+    <div class="admin-note">Records are stored via shared storage tied to this artifact and are visible to anyone who has the passcode. Names, contact details, and scores entered by trainees are included.</div>
+  </div>`;
+}
+
+/* ---------------- handlers ---------------- */
+function attachHandlers(){
+  const app = document.getElementById("app");
+
+  const nameInput = document.getElementById("reg-name");
+  if(nameInput) nameInput.addEventListener("input", e=>{ state.reg.name = e.target.value; });
+  const emailInput = document.getElementById("reg-email");
+  if(emailInput) emailInput.addEventListener("input", e=>{ state.reg.email = e.target.value; });
+  const teamSelect = document.getElementById("reg-team");
+  if(teamSelect) teamSelect.addEventListener("change", e=>{ state.reg.team = e.target.value; });
+  const adminPassInput = document.getElementById("admin-pass");
+  if(adminPassInput){
+    adminPassInput.addEventListener("input", e=>{ state.adminPass = e.target.value; });
+    adminPassInput.addEventListener("keydown", e=>{ if(e.key==="Enter") doAdminLogin(); });
+  }
+
+  app.querySelectorAll("[data-action]").forEach(el=>{
+    el.addEventListener("click", (e)=>{
+      const action = el.getAttribute("data-action");
+      handleAction(action, el);
+    });
+  });
+
+  if(state.screen === "complete" && !state._saved){
+    state._saved = true;
+    saveCompletion();
+  }
+}
+
+function handleAction(action, el){
+  switch(action){
+    case "start-training":
+      if(!state.reg.name.trim()){
+        const input = document.getElementById("reg-name");
+        input.style.borderColor = "var(--red)";
+        input.focus();
+        return;
+      }
+      state.screen = "train";
+      state.sectionIndex = 0;
+      render();
+      break;
+    case "next-section":
+      if(state.sectionIndex < SECTIONS.length-1){
+        state.sectionIndex++;
+      } else {
+        state.screen = "quiz";
+        state.quizIndex = 0;
+      }
+      render();
+      break;
+    case "prev-section":
+      if(state.sectionIndex > 0){ state.sectionIndex--; render(); }
+      break;
+    case "answer": {
+      if(state.quizRevealed) return;
+      const idx = parseInt(el.getAttribute("data-index"), 10);
+      const q = QUIZ[state.quizIndex];
+      state.quizAnswers[state.quizIndex] = { selected: idx, correctIdx: q.correct };
+      state.quizRevealed = true;
+      render();
+      break;
+    }
+    case "quiz-next":
+      if(!state.quizRevealed) return;
+      state.quizRevealed = false;
+      if(state.quizIndex < QUIZ.length-1){
+        state.quizIndex++;
+        render();
+      } else {
+        state.screen = "complete";
+        state._saved = false;
+        render();
+      }
+      break;
+    case "go-admin":
+      state.screen = "admin-gate";
+      state.adminError = "";
+      render();
+      break;
+    case "back-to-training":
+      state.screen = state.reg.name && state._saved ? "complete" : "register";
+      render();
+      break;
+    case "admin-login":
+      doAdminLogin();
+      break;
+    case "admin-refresh":
+      loadAdminRecords();
+      break;
+    case "export-csv":
+      exportCsv();
+      break;
+  }
+}
+
+async function doAdminLogin(){
+  const val = state.adminPass || (document.getElementById("admin-pass") ? document.getElementById("admin-pass").value : "");
+
+  if(USE_APPS_SCRIPT){
+    // Real check happens server-side in the Apps Script, since the
+    // passcode there is the source of truth once this is hosted
+    // outside Claude.
+    state.adminLoading = true;
+    state.screen = "admin";
+    state.adminError = "";
+    render();
+    try{
+      const url = `${APPS_SCRIPT_URL}?action=list&passcode=${encodeURIComponent(val)}`;
+      const res = await fetch(url);
+      const data = await res.json();
+      if(data && data.ok){
+        data.records.sort((a,b)=> (b.timestamp||0) - (a.timestamp||0));
+        state.adminRecords = data.records;
+        state.adminLoading = false;
+        render();
+      } else {
+        state.screen = "admin-gate";
+        state.adminError = "Incorrect passcode. Please check with your team lead.";
+        state.adminLoading = false;
+        render();
+      }
+    }catch(err){
+      console.error("Admin fetch failed", err);
+      state.screen = "admin-gate";
+      state.adminError = "Could not reach the training records. Check your connection and try again.";
+      state.adminLoading = false;
+      render();
+    }
+    return;
+  }
+
+  // Fallback: running inside Claude, use window.storage directly.
+  if(val === ADMIN_PASSCODE){
+    state.screen = "admin";
+    state.adminError = "";
+    render();
+    loadAdminRecords();
+  } else {
+    state.adminError = "Incorrect passcode. Please check with your team lead.";
+    render();
+  }
+}
+
+async function loadAdminRecords(){
+  state.adminLoading = true;
+  render();
+
+  if(USE_APPS_SCRIPT){
+    try{
+      const url = `${APPS_SCRIPT_URL}?action=list&passcode=${encodeURIComponent(state.adminPass)}`;
+      const res = await fetch(url);
+      const data = await res.json();
+      state.adminRecords = (data && data.ok) ? data.records.sort((a,b)=> (b.timestamp||0) - (a.timestamp||0)) : [];
+    }catch(err){
+      console.error("Refresh failed", err);
+      state.adminRecords = [];
+    }
+    state.adminLoading = false;
+    render();
+    return;
+  }
+
+  try{
+    const listResult = await window.storage.list(`${TRAINING_ID}:completion:`, true);
+    const keys = (listResult && listResult.keys) ? listResult.keys : [];
+    const records = [];
+    for(const key of keys){
+      try{
+        const res = await window.storage.get(key, true);
+        if(res && res.value){
+          const parsed = JSON.parse(res.value);
+          records.push(parsed);
+        }
+      }catch(err){
+        console.error("Failed to load record", key, err);
+      }
+    }
+    records.sort((a,b)=> (b.timestamp||0) - (a.timestamp||0));
+    state.adminRecords = records;
+  }catch(err){
+    console.error("Failed to list records", err);
+    state.adminRecords = [];
+  }
+  state.adminLoading = false;
+  render();
+}
+
+async function saveCompletion(){
+  const correctCount = state.quizAnswers.filter(a=>a.selected===a.correctIdx).length;
+  const total = QUIZ.length;
+  const now = new Date();
+  const record = {
+    name: state.reg.name.trim(),
+    email: state.reg.email.trim(),
+    team: state.reg.team,
+    score: correctCount,
+    total: total,
+    timestamp: now.getTime(),
+    dateDisplay: now.toLocaleDateString('en-GB', {day:'2-digit', month:'long', year:'numeric'}) + " at " + now.toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit'})
+  };
+  const statusEl = () => document.getElementById("save-status");
+
+  if(USE_APPS_SCRIPT){
+    try{
+      // text/plain avoids a CORS preflight the Apps Script doesn't handle;
+      // the server still parses the body as JSON.
+      const res = await fetch(APPS_SCRIPT_URL, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(record)
+      });
+      const data = await res.json();
+      if(statusEl()) statusEl().textContent = (data && data.ok) ? "Completion record saved." : "Could not save your completion record — please let your team lead know.";
+    }catch(err){
+      console.error("Save failed", err);
+      if(statusEl()) statusEl().textContent = "Could not save your completion record — please let your team lead know.";
+    }
+    return;
+  }
+
+  const key = `${TRAINING_ID}:completion:${now.getTime()}_${Math.random().toString(36).slice(2,8)}`;
+  try{
+    const result = await window.storage.set(key, JSON.stringify(record), true);
+    if(result && statusEl()){
+      statusEl().textContent = "Completion record saved.";
+    } else if(statusEl()){
+      statusEl().textContent = "Could not save your completion record — please let your team lead know.";
+    }
+  }catch(err){
+    console.error("Save failed", err);
+    if(statusEl()) statusEl().textContent = "Could not save your completion record — please let your team lead know.";
+  }
+}
+
+function exportCsv(){
+  const records = state.adminRecords || [];
+  const header = ["Name","Team","Contact","Score","Total","Date Completed"];
+  const rows = records.map(r=>[r.name, r.team||"", r.email||"", r.score, r.total, r.dateDisplay]);
+  const csv = [header, ...rows].map(row =>
+    row.map(cell => `"${String(cell).replace(/"/g,'""')}"`).join(",")
+  ).join("\n");
+  const blob = new Blob([csv], {type:"text/csv;charset=utf-8;"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "roaming-medics-training-roster.csv";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function escapeHtml(str){
+  if(str === undefined || str === null) return "";
+  return String(str).replace(/[&<>"']/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+}
+function escapeAttr(str){ return escapeHtml(str); }
+
+render();
+</script>
+</body>
+</html>
